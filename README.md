@@ -24,4 +24,57 @@ document.addEventListener('submit', (event) => {
 ```
 
 ## useRef
+```js
 
+import { useRef } from "react";
+
+const NoControlado = () => {
+
+    const form = useRef(null);
+
+    const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(form.current);
+        console.log([...data.entries()]);
+
+        // El método Object.fromEntries() transforma una lista de pares con [clave-valor] en un objeto.
+        const { title, description, state } = Object.fromEntries([...data.entries()]);
+        
+        // validar los datos
+        if (!title.trim() || !description.trim() || !state.trim()) return setError("Llena todos los campos");
+        // Demas código
+    }
+    <form onSubmit={handleSubmit} ref={form}>
+        <input 
+            type="text" 
+            placeholder="Ingrese Todo" 
+            className="form-control mb-2" 
+            name="title"
+            defaultValue={"todo #1"}
+        />
+        // Demas codigo
+```
+
+## Formulario Controlado vs No controlado
+
+```js
+// No controlado usa name
+<input 
+    type="text" 
+    placeholder="Ingrese Todo" 
+    className="form-control mb-2" 
+    name="title"
+    defaultValue={"todo #1"}
+/>
+
+// Controlado usa value
+<input 
+    type="text" 
+    placeholder="Ingrese Todo" 
+    className="form-control mb-2" 
+    name="title"
+    value={title}
+    onChange={handleChange}
+/>
+```
+El `value` siempre necesitara un ``onChange``

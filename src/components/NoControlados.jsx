@@ -1,13 +1,16 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const NoControlado = () => {
+
+    const [error, setError] = useState("");
 
     const form = useRef(null);
 
     // para form-data necesitamos name en los campos
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(form.current);
+        // console.log(form.current);
+        setError('');
 
         // Capturar los datos
         const data = new FormData(form.current);
@@ -17,7 +20,7 @@ const NoControlado = () => {
         const { title, description, state } = Object.fromEntries([...data.entries()]);
         
         // validar los datos
-        if (!title.trim()) return console.log("llena el campo title");
+        if (!title.trim() || !description.trim() || !state.trim()) return setError("Llena todos los campos");
         
         // Enviar los datos 
         console.log(title, description, state);
@@ -45,6 +48,10 @@ const NoControlado = () => {
                 <option value="completado">Completado</option>
             </select>
             <button className="btn btn-primary" type="submit">Procesar</button>
+            {
+                // error != '' ? error : "No hay errores"
+                error != "" && error
+            }
         </form>
     )
 }
